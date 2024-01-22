@@ -79,7 +79,7 @@ static void Bubblesort()
     {
         for (int j = 0; j < numbers.Length - 1; j++)
         {
-            if(numbers[j + 1] <  numbers[j])
+            if (numbers[j + 1] < numbers[j])
             {
                 (numbers[j], numbers[j + 1]) = (numbers[j + 1], numbers[j]);
 
