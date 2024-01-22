@@ -1,10 +1,14 @@
 ﻿using System.Diagnostics;
 
-Console.WriteLine("Welcome to the sorting experiment");
+Console.WriteLine("Welcome to the sorting experiment\n");
 
-const int size = 10000;
+const int size = 100000;
 
 var numbers = GetUnsortedNumbers();
+
+Bubblesort(numbers);
+
+numbers = GetUnsortedNumbers();
 
 SelectionSort(numbers);
 
@@ -33,10 +37,10 @@ static int[] GetUnsortedNumbers()
 
 static void SelectionSort(int[] numbers)
 {
+    Console.WriteLine("Running selection sort\n");
+
     var stopwatch = new Stopwatch();
     int minIndex;
-
-    Console.WriteLine("Begin selection sort");
 
     stopwatch.Start();
 
@@ -54,12 +58,38 @@ static void SelectionSort(int[] numbers)
 
         (numbers[minIndex], numbers[i]) = (numbers[i], numbers[minIndex]);
 
-        LogNumbers(numbers);
+        //LogNumbers(numbers);
     }
 
     stopwatch.Stop();
 
-    Console.WriteLine($"Selection Sort Time: {stopwatch.ElapsedMilliseconds / 1000} seconds");
+    LogTimeTaken(stopwatch);
+}
+
+static void Bubblesort(int[] numbers)
+{
+    Console.WriteLine("Running bubble sort\n");
+
+    var stopwatch = new Stopwatch();
+
+    stopwatch.Start();
+
+    for (int i = 0; i < numbers.Length; i++)
+    {
+        for (int j = 0; j < numbers.Length - 1; j++)
+        {
+            if(numbers[j + 1] <  numbers[j])
+            {
+                (numbers[j], numbers[j + 1]) = (numbers[j + 1], numbers[j]);
+
+                //LogNumbers(numbers);
+            }
+        }
+    }
+
+    stopwatch.Stop();
+
+    LogTimeTaken(stopwatch);
 }
 
 static void LogNumbers(int[] numbers)
@@ -67,4 +97,11 @@ static void LogNumbers(int[] numbers)
     var numbersString = $"[{string.Join(", ", numbers)}]";
     Console.WriteLine(numbersString);
     Console.WriteLine();
+}
+
+static void LogTimeTaken(Stopwatch stopwatch)
+{
+    var elapsedSeconds = stopwatch.ElapsedMilliseconds / 1000.0;
+
+    Console.WriteLine($"Sort Time: {elapsedSeconds} seconds\n");
 }
