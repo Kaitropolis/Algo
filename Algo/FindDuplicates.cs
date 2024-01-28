@@ -4,9 +4,52 @@ namespace Algo
 {
     public class FindDuplicates : IChoice
     {
+
+        const int _size = 200000;
+
         public void Run()
         {
-            throw new NotImplementedException();
+            var numbers = GetNumbers();
+            int targetIndex;
+            var duplicates = new List<int>();
+            var stopwatch = new Stopwatch();
+
+            LogNumbers(numbers);
+
+            stopwatch.Start();
+
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                targetIndex = i;
+
+                for (int j = i + 1; j < numbers.Length; j++)
+                {
+                    if (numbers[j] == numbers[targetIndex] && !duplicates.Contains(numbers[j]))
+                    {
+                        duplicates.Add(numbers[j]);
+                    }
+                }
+            }
+
+            stopwatch.Stop();
+
+            LogNumbers(duplicates.ToArray());
+
+            LogTimeTaken(stopwatch);
+        }
+
+        static int[] GetNumbers()
+        {
+            var numbers = new int[_size];
+
+            var random = new Random();
+
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                numbers[i] = random.Next(1, 10);
+            }
+
+            return numbers;
         }
 
         static void LogNumbers(int[] numbers)
@@ -20,7 +63,7 @@ namespace Algo
         {
             var elapsedSeconds = stopwatch.ElapsedMilliseconds / 1000.0;
 
-            Console.WriteLine($"Sort Time: {elapsedSeconds} seconds\n");
+            Console.WriteLine($"Time to find duplicates: {elapsedSeconds} seconds");
         }
     }
 }
