@@ -4,8 +4,8 @@ while (true)
 {
     Console.WriteLine("What would you like to do?\n");
 
-    Console.WriteLine(ChoiceType.Sort + " - " + (int)ChoiceType.Sort);
-    Console.WriteLine(ChoiceType.FindDuplicates + " - " + (int)ChoiceType.FindDuplicates);
+    Console.WriteLine((int)ChoiceType.Sort  + " - " + ChoiceType.Sort);
+    Console.WriteLine((int)ChoiceType.FindDuplicates + " - " + ChoiceType.FindDuplicates);
 
     Console.WriteLine();
 
