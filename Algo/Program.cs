@@ -1,108 +1,25 @@
-﻿using System.Diagnostics;
+﻿using Algo;
 
-Console.WriteLine("Welcome to the sorting experiment\n");
-
-const int size = 50000;
-
-BubbleSort();
-
-SelectionSort();
-
-Console.ReadLine();
-
-static int[] GetUnsortedNumbers()
+while (true)
 {
-    var numbers = new int[size];
+    Console.WriteLine("What would you like to do?\n");
 
-    for (int i = 0; i < numbers.Length; i++)
-    {
-        numbers[i] = i;
-    }
+    Console.WriteLine(ChoiceType.Sort + " - " + (int)ChoiceType.Sort);
+    Console.WriteLine(ChoiceType.FindDuplicates + " - " + (int)ChoiceType.FindDuplicates);
 
-    var random = new Random();
+    Console.WriteLine();
 
-    for (int i = numbers.Length - 1; i > 0; i--)
-    {
-        int j = random.Next(0, i + 1);
+    Console.WriteLine("Press any other key to exit.\n");
 
-        (numbers[j], numbers[i]) = (numbers[i], numbers[j]);
-    }
+    var choiceTypeString = Console.ReadLine();
 
-    return numbers;
-}
+    if (!int.TryParse(choiceTypeString, out var choiceTypeNum) || choiceTypeNum > 1) return;
 
-static void SelectionSort()
-{
-    Console.WriteLine("Running Selection Sort\n");
+    var choiceType = (ChoiceType)choiceTypeNum;
 
-    var stopwatch = new Stopwatch();
+    var choice = choiceType.AsChoice();
 
-    var numbers = GetUnsortedNumbers();
+    choice.Run();
 
-    int minIndex;
-
-    stopwatch.Start();
-
-    for (int i = 0; i < numbers.Length; i++)
-    {
-        minIndex = i;
-
-        for (int j = i; j < numbers.Length; j++)
-        {
-            if (numbers[j] < numbers[minIndex])
-            {
-                minIndex = j;
-            }
-        }
-
-        (numbers[minIndex], numbers[i]) = (numbers[i], numbers[minIndex]);
-
-        //LogNumbers(numbers);
-    }
-
-    stopwatch.Stop();
-
-    LogTimeTaken(stopwatch);
-}
-
-static void BubbleSort()
-{
-    Console.WriteLine("Running Bubble Sort\n");
-
-    var stopwatch = new Stopwatch();
-
-    var numbers = GetUnsortedNumbers();
-
-    stopwatch.Start();
-
-    for (int i = 0; i < numbers.Length; i++)
-    {
-        for (int j = 0; j < numbers.Length - 1; j++)
-        {
-            if (numbers[j + 1] < numbers[j])
-            {
-                (numbers[j], numbers[j + 1]) = (numbers[j + 1], numbers[j]);
-
-                //LogNumbers(numbers);
-            }
-        }
-    }
-
-    stopwatch.Stop();
-
-    LogTimeTaken(stopwatch);
-}
-
-static void LogNumbers(int[] numbers)
-{
-    var numbersString = $"[{string.Join(", ", numbers)}]";
-
-    Console.WriteLine($"{numbersString}\n");
-}
-
-static void LogTimeTaken(Stopwatch stopwatch)
-{
-    var elapsedSeconds = stopwatch.ElapsedMilliseconds / 1000.0;
-
-    Console.WriteLine($"Sort Time: {elapsedSeconds} seconds\n");
+    Console.WriteLine();
 }
