@@ -4,7 +4,6 @@ namespace Algo
 {
     public class FindDuplicates : IChoice
     {
-
         const int _size = 100000;
 
         public void Run()
