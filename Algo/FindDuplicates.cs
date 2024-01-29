@@ -5,13 +5,13 @@ namespace Algo
     public class FindDuplicates : IChoice
     {
 
-        const int _size = 200000;
+        const int _size = 100000;
 
         public void Run()
         {
             var numbers = GetNumbers();
             int targetIndex;
-            var duplicates = new List<int>();
+            var duplicates = new HashSet<int>();
             var stopwatch = new Stopwatch();
 
             LogNumbers(numbers);
@@ -22,11 +22,12 @@ namespace Algo
             {
                 targetIndex = i;
 
-                for (int j = i + 1; j < numbers.Length; j++)
+                for (int j = i + 1; j < numbers.Length || !duplicates.Contains(numbers[targetIndex]); j++)
                 {
                     if (numbers[j] == numbers[targetIndex] && !duplicates.Contains(numbers[j]))
                     {
                         duplicates.Add(numbers[j]);
+                        break;
                     }
                 }
             }
