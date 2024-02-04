@@ -9,19 +9,27 @@ namespace Algo
         public void Run()
         {
             var numbers = GetNumbers();
-            int targetIndex;
+
+            WithNestedLoop(numbers);
+
+            WithSingleLoop(numbers);
+        }
+
+        static void WithNestedLoop(int[] numbers)
+        {
+            Console.WriteLine("Running With Nested Loop\n");
+
             var duplicates = new HashSet<int>();
             var stopwatch = new Stopwatch();
-
-            LogNumbers(numbers);
+            int targetIndex;
 
             stopwatch.Start();
 
             for (int i = 0; i < numbers.Length; i++)
             {
                 targetIndex = i;
-
-                for (int j = i + 1; j < numbers.Length || !duplicates.Contains(numbers[targetIndex]); j++)
+                
+                for (int j = i; j < numbers.Length || !duplicates.Contains(numbers[targetIndex]); j++)
                 {
                     if (numbers[j] == numbers[targetIndex] && !duplicates.Contains(numbers[j]))
                     {
@@ -33,7 +41,30 @@ namespace Algo
 
             stopwatch.Stop();
 
-            LogNumbers(duplicates.ToArray());
+            LogTimeTaken(stopwatch);
+        } 
+
+        static void WithSingleLoop(int[] numbers)
+        {
+            Console.WriteLine("Running With Single Loop\n");
+
+            var duplicates = new HashSet<int>();
+            var uniqueNumbers = new HashSet<int>();
+            var stopwatch = new Stopwatch();
+        
+            stopwatch.Start();
+
+            for (int i = 0; i < numbers.Length; i++)
+            {
+               var isAdded = uniqueNumbers.Add(numbers[i]);
+
+                if (!isAdded)
+                {
+                    duplicates.Add(numbers[i]);
+                }
+            }
+
+            stopwatch.Stop();
 
             LogTimeTaken(stopwatch);
         }
@@ -63,7 +94,7 @@ namespace Algo
         {
             var elapsedSeconds = stopwatch.ElapsedMilliseconds / 1000.0;
 
-            Console.WriteLine($"Time to find duplicates: {elapsedSeconds} seconds");
+            Console.WriteLine($"Time to find duplicates: {elapsedSeconds} seconds\n");
         }
     }
 }

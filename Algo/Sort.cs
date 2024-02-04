@@ -10,11 +10,16 @@ namespace Algo
         {
             Console.WriteLine("Welcome to the sorting experiment\n");
 
-            // Average times are based on an array size of 50000         
+            // Average times are based on an array size of 50000 
+            var unsortedNumbers = GetUnsortedNumbers();
 
-            BubbleSort();
+            LogNumbers(unsortedNumbers);
 
-            SelectionSort();  
+            BubbleSort(unsortedNumbers);
+
+            LogNumbers(unsortedNumbers);
+
+            SelectionSort(unsortedNumbers);  
         }
 
         static int[] GetUnsortedNumbers()
@@ -39,15 +44,15 @@ namespace Algo
         }
 
         // Average Time - 6 seconds
-        static void SelectionSort()
+        static void SelectionSort(int[] unsortedNumbers)
         {
             Console.WriteLine($"Running Selection Sort on {_size} items\n");
 
             var stopwatch = new Stopwatch();
-
-            var numbers = GetUnsortedNumbers();
-
+            var numbers = new int[unsortedNumbers.Length];
             int minIndex;
+
+            Array.Copy(unsortedNumbers, numbers, unsortedNumbers.Length);
 
             stopwatch.Start();
 
@@ -74,15 +79,15 @@ namespace Algo
         }
 
         // Average Time - 17 seconds
-        static void BubbleSort()
+        static void BubbleSort(int[] unsortedNumbers)
         {
             Console.WriteLine($"Running Bubble Sort on {_size} items\n");
 
             var stopwatch = new Stopwatch();
-
-            var numbers = GetUnsortedNumbers();
-
+            var numbers = new int[unsortedNumbers.Length];
             bool hasSwapped;
+
+            Array.Copy(unsortedNumbers, numbers, unsortedNumbers.Length);
 
             stopwatch.Start();
 
@@ -121,7 +126,7 @@ namespace Algo
         {
             var elapsedSeconds = stopwatch.ElapsedMilliseconds / 1000.0;
 
-            Console.WriteLine($"Sort Time: {elapsedSeconds} seconds");
+            Console.WriteLine($"Sort Time: {elapsedSeconds} seconds\n");
         }
     }
 }

@@ -20,6 +20,4 @@ while (true)
     var choice = choiceType.AsChoice();
 
     choice.Run();
-
-    Console.WriteLine();
 }
