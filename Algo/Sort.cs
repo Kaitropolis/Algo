@@ -115,6 +115,12 @@ namespace Algo
             LogTimeTaken(stopwatch);
         }
 
+        // Average Time - TBC
+        static void MergeSort()
+        {
+            
+        }
+
         static void LogNumbers(int[] numbers)
         {
             var numbersString = $"[{string.Join(", ", numbers)}]";

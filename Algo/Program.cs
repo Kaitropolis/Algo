@@ -6,6 +6,7 @@ while (true)
 
     Console.WriteLine((int)ChoiceType.Sort  + " - " + ChoiceType.Sort);
     Console.WriteLine((int)ChoiceType.FindDuplicates + " - " + ChoiceType.FindDuplicates);
+    Console.WriteLine((int)ChoiceType.PathFinding + " - " + ChoiceType.PathFinding);
 
     Console.WriteLine();
 
@@ -13,7 +14,7 @@ while (true)
 
     var choiceTypeString = Console.ReadLine();
 
-    if (!int.TryParse(choiceTypeString, out var choiceTypeNum) || choiceTypeNum > 1) return;
+    if (!int.TryParse(choiceTypeString, out var choiceTypeNum) || choiceTypeNum > 2) return;
 
     var choiceType = (ChoiceType)choiceTypeNum;
 
