@@ -5,7 +5,7 @@ namespace Algo
 {
     public class Sort : IChoice
     {
-        const int _size = 10000000;
+        const int _size = 50000;
 
         public void Run()
         {
@@ -15,9 +15,9 @@ namespace Algo
 
             //ArrayUtils.LogNumbers(unsortedNumbers);
 
-            //BubbleSort(unsortedNumbers);
+            BubbleSort(unsortedNumbers);
 
-            //SelectionSort(unsortedNumbers);
+            SelectionSort(unsortedNumbers);
 
             MergeSort(unsortedNumbers);
         }        
