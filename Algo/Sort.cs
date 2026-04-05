@@ -1,47 +1,28 @@
-﻿using System.Diagnostics;
+﻿using Algo.Utils;
+using System.Diagnostics;
 
 namespace Algo
 {
     public class Sort : IChoice
     {
-        const int _size = 50000;
+        const int _size = 10000000;
 
         public void Run()
         {
             Console.WriteLine("Welcome to the sorting experiment\n");
 
-            // Average times are based on an array size of 50000 
-            var unsortedNumbers = GetUnsortedNumbers();
+            var unsortedNumbers = ArrayUtils.GetUnsortedNumbers(_size);
 
-            LogNumbers(unsortedNumbers);
+            //ArrayUtils.LogNumbers(unsortedNumbers);
 
-            BubbleSort(unsortedNumbers);
+            //BubbleSort(unsortedNumbers);
 
-            LogNumbers(unsortedNumbers);
+            //SelectionSort(unsortedNumbers);
 
-            SelectionSort(unsortedNumbers);  
-        }
+            MergeSort(unsortedNumbers);
+        }        
 
-        static int[] GetUnsortedNumbers()
-        {
-            var numbers = new int[_size];
-
-            for (int i = 0; i < numbers.Length; i++)
-            {
-                numbers[i] = i;
-            }
-
-            var random = new Random();
-
-            for (int i = numbers.Length - 1; i > 0; i--)
-            {
-                int j = random.Next(0, i + 1);
-
-                (numbers[j], numbers[i]) = (numbers[i], numbers[j]);
-            }
-
-            return numbers;
-        }
+        // Average times based on 50000 items for Bubble/Selection sort and 10000000 items for merge sort
 
         // Average Time - 6 seconds
         static void SelectionSort(int[] unsortedNumbers)
@@ -75,7 +56,7 @@ namespace Algo
 
             stopwatch.Stop();
 
-            LogTimeTaken(stopwatch);
+            StopwatchUtils.LogTimeTaken(stopwatch);
         }
 
         // Average Time - 17 seconds
@@ -112,27 +93,87 @@ namespace Algo
 
             stopwatch.Stop();
 
-            LogTimeTaken(stopwatch);
+            StopwatchUtils.LogTimeTaken(stopwatch);
         }
 
-        // Average Time - TBC
-        static void MergeSort()
+        static void MergeSort(int[] unsortedNumbers)
         {
-            
+            Console.WriteLine($"Running Merge Sort on {_size} items\n");
+
+            var stopwatch = new Stopwatch();
+            var numbers = new int[unsortedNumbers.Length];            
+
+            Array.Copy(unsortedNumbers, numbers, unsortedNumbers.Length);
+
+            stopwatch.Start();
+
+            numbers = MergeResursive(numbers);       
+
+            StopwatchUtils.LogTimeTaken(stopwatch);
         }
 
-        static void LogNumbers(int[] numbers)
+        // Average Time - 3.648
+        static int[] MergeResursive(int[] numbers)
         {
-            var numbersString = $"[{string.Join(", ", numbers)}]";
+            if (numbers.Length == 1)
+                return numbers;
 
-            Console.WriteLine($"{numbersString}\n");
+            var mid = numbers.Length / 2;
+            var left = MergeResursive(numbers[.. mid]);            
+            var right = MergeResursive(numbers[mid ..]);
+
+            var sorted = new int[numbers.Length];
+            int l = 0, r = 0;
+            for (var i = 0; i < numbers.Length; i++)
+            {
+                if (l >= left.Length)
+                    sorted[i] = right[r++];
+                else if (r >= right.Length)
+                    sorted[i] = left[l++];
+                else
+                    sorted[i] = left[l] < right[r] ? left[l++] : right[r++];
+            }            
+
+            return sorted;
         }
 
-        static void LogTimeTaken(Stopwatch stopwatch)
-        {
-            var elapsedSeconds = stopwatch.ElapsedMilliseconds / 1000.0;
+        // Average Time - 3.968
+        static int[] MergeIterative(int[] numbers)
+        {            
+            int size = 2; // Size of the current subarray
+            while (size / 2 < numbers.Length)
+            {
+                int left = 0;
+                while (left < numbers.Length)
+                {
+                    int right = Math.Min(left + size, numbers.Length);
+                    int mid = left + size / 2;
+                    int l = left, r = mid;
+                    var sorted = new int[size];
+                    for (int i = 0; i < right - left; i++)
+                    {
+                        if (l >= mid && r >= right)
+                            continue;
+                        if (l >= mid)
+                            sorted[i] = numbers[r++];
+                        else if (r >= right)
+                            sorted[i] = numbers[l++];
+                        else
+                            sorted[i] = numbers[l] < numbers[r] ? numbers[l++] : numbers[r++];
+                    }
 
-            Console.WriteLine($"Sort Time: {elapsedSeconds} seconds\n");
+                    for (int i = left; i < right; i++)
+                    {
+                        numbers[i] = sorted[i - left];
+                    }
+
+                    left += size;
+                }
+
+                size *= 2;
+            }
+
+            return numbers;
         }
     }
 }

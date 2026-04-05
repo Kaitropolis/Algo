@@ -4,7 +4,8 @@
     {
         Sort = 0,
         FindDuplicates = 1,
-        PathFinding = 2
+        PathFinding = 2,
+        Search = 3
     }
 
     public static class ChoiceExtensions 
@@ -16,6 +17,7 @@
                 ChoiceType.Sort => "Sort",
                 ChoiceType.FindDuplicates => "Find Duplicates",
                 ChoiceType.PathFinding => "Path Finding",
+                ChoiceType.Search => "Search",
                 _ => throw new ArgumentOutOfRangeException(nameof(choiceType)),
             };
         }
@@ -27,6 +29,7 @@
                 ChoiceType.Sort => new Sort(),
                 ChoiceType.FindDuplicates => new FindDuplicates(),
                 ChoiceType.PathFinding => new PathFinding(),
+                ChoiceType.Search => new Search(),
                 _ => throw new ArgumentOutOfRangeException(nameof(choiceType)),
             };
         }

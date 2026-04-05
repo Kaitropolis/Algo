@@ -22,9 +22,13 @@
             }
         }
 
-        public Node? GetNode(int x, int y)
+        public Node GetNode(int x, int y)
         {
-            if (x < 0 || y < 0 || x >= Width || y >= Height) return null;
+            if (x < 0 || y < 0 || x >= Width || y >= Height)
+            {
+                throw new ArgumentOutOfRangeException("The provided coordinates are out of bounds");
+            }
+
             return Nodes[x, y];
         }
 
